@@ -1,0 +1,26 @@
+.splash-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  background-image: url('https://s2.loli.net/2023/09/19/ATNyO7t6JfbMIqa.png');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.skip-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 10px 20px;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: #fff;
+  border-radius: 4px;
+  font-size: 24px;
+  text-align: center;
+  line-height: 1.2;
+}
