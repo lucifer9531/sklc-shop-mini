@@ -15,19 +15,29 @@ const Splash: FC = () => {
         setCountdown(countdown - 1);
       } else {
         clearInterval(timer);
-        Taro.redirectTo({
-          url: HOME_PAGE
-        });
+        redirectToHomePage();
       }
     }, 1000);
 
     return () => clearInterval(timer);
   }, [countdown]);
 
-  const handleSkip = () => {
+  useEffect(() => {
+    Taro.hideTabBar();
+    return () => {
+      Taro.showTabBar();
+    }
+  }, []);
+
+
+  const redirectToHomePage = () => {
     Taro.redirectTo({
-      url: HOME_PAGE
+      url: HOME_PAGE,
     });
+  };
+
+  const handleSkip = () => {
+    redirectToHomePage();
   };
 
   return (

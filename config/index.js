@@ -1,7 +1,7 @@
 import path from "path";
 
 const config = {
-  projectName: 'taro-antd',
+  projectName: 'sklc-shop-mini',
   date: '2021-3-31',
   designWidth: 750,
   deviceRatio: {
