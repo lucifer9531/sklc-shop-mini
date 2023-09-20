@@ -22,14 +22,6 @@ const Splash: FC = () => {
     return () => clearInterval(timer);
   }, [countdown]);
 
-  useEffect(() => {
-    Taro.hideTabBar();
-    return () => {
-      Taro.showTabBar();
-    }
-  }, []);
-
-
   const redirectToHomePage = () => {
     Taro.redirectTo({
       url: HOME_PAGE,

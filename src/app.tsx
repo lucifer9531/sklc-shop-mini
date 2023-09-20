@@ -1,6 +1,7 @@
+import type { FC } from "react";
 import './app.scss';
 
-function App(props: any) {
+const App: FC = (props: any) => {
   return props.children;
 }
 

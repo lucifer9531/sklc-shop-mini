@@ -1,7 +1,8 @@
 export default {
   pages: [
     'pages/splash/index',
-    'pages/index/index'
+    'pages/index/index',
+    'pages/center/index'
   ],
   window: {
     backgroundTextStyle: 'light',
@@ -11,21 +12,21 @@ export default {
   },
   tabBar: {
     backgroundColor: '#fafafa',
-    borderStyle: 'black',
-    selectedColor: '#AB956D',
-    color: '#666',
+    borderStyle: 'white',
+    selectedColor: '#2d8cf0',
+    color: '#8a8a8a',
     list: [
       {
         pagePath: "pages/index/index",
-        // iconPath: './static/images/home.png',
-        // selectedIconPath: './static/images/home@selected.png',
+        iconPath: './assets/images/tab_trend.png',
+        selectedIconPath: './assets/images/tab_trend_s.png',
         text: "首页"
       },
       {
-        pagePath: "pages/splash/index",
-        // iconPath: './static/images/category.png',
-        // selectedIconPath: './static/images/category@selected.png',
-        text: "测试"
+        pagePath: "pages/center/index",
+        iconPath: './assets/images/tab_me.png',
+        selectedIconPath: './assets/images/tab_me_s.png',
+        text: "个人"
       },
     ]
   },
