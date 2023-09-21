@@ -1,0 +1,36 @@
+.supplier-card {
+  margin-bottom: 20px;
+
+  .at-card {
+    border-radius: 10px;
+
+    .view-shop-info {
+      color: #0090ff;
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      font-size: 28px;
+      line-height: 1.8;
+    }
+
+    .operation-btn {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+
+      .icon {
+        margin: 0 10px 8px 0;
+      }
+
+      .at-button {
+        flex: 1;
+
+        &.mobile-btn {
+          margin-left: 15px;
+        }
+      }
+    }
+  }
+}

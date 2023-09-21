@@ -1,7 +1,11 @@
 export default {
   pages: [
     'pages/splash/index',
-    'pages/index/index',
+    'pages/supplier/index',
+    'pages/addSupplier/index',
+    'pages/supplierInfo/index',
+    'pages/oneClickOrder/index',
+    'pages/order/index',
     'pages/center/index'
   ],
   window: {
@@ -11,22 +15,28 @@ export default {
     navigationBarTextStyle: 'black'
   },
   tabBar: {
-    backgroundColor: '#fafafa',
-    borderStyle: 'white',
+    backgroundColor: '#fff',
+    borderStyle: 'black',
     selectedColor: '#2d8cf0',
-    color: '#8a8a8a',
+    color: '#666',
     list: [
       {
-        pagePath: "pages/index/index",
+        pagePath: "pages/supplier/index",
         iconPath: './assets/images/tab_trend.png',
         selectedIconPath: './assets/images/tab_trend_s.png',
-        text: "首页"
+        text: "供应商"
+      },
+      {
+        pagePath: "pages/order/index",
+        iconPath: './assets/images/tab_trend.png',
+        selectedIconPath: './assets/images/tab_trend_s.png',
+        text: "订单"
       },
       {
         pagePath: "pages/center/index",
         iconPath: './assets/images/tab_me.png',
         selectedIconPath: './assets/images/tab_me_s.png',
-        text: "个人"
+        text: "我的"
       },
     ]
   },

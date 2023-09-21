@@ -1,1 +1,7 @@
-@import 'antd-mobile/dist/antd-mobile.css';
+@import 'taro-ui/dist/style/index.scss';
+
+@mixin text-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

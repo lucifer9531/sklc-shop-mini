@@ -1,30 +1,49 @@
-.splash-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
+.welcome {
   width: 100%;
+  height: 100vh;
   position: relative;
-  background-image: url('https://s2.loli.net/2023/09/19/ATNyO7t6JfbMIqa.png');
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
+
+  .title-wrapper {
+    position: absolute;
+    top: 15%;
+    left: 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .title {
+      font-size: 70px;
+      font-weight: 400;
+    }
+
+    .sub-title {
+      font-size: 50px;
+      font-weight: 300;
+      margin: 20px 0 0 40px;
+    }
+  }
+
+  .loading-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+
+    .loading-icon {
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+      animation: spin 3s linear infinite;
+    }
+
+    .loading-text {
+      font-size: 30px;
+    }
+  }
 }
 
-.skip-button {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  padding: 10px 20px;
-  background-color: rgba(0, 0, 0, 0.2);
-  color: #fff;
-  border-radius: 4px;
-  font-size: 24px;
-  text-align: center;
-  line-height: 1.2;
-}
-
-.tab-bar {
-  display: none;
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

@@ -5,7 +5,7 @@ import './index.scss';
 const Center: FC = () => {
   return (
     <>
-      <Text>我的</Text>
+      <Text>添加供应商</Text>
     </>
   )
 }

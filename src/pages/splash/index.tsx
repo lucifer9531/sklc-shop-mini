@@ -1,42 +1,40 @@
 import type { FC } from 'react';
 
 import Taro from '@tarojs/taro';
-import { View, Button } from '@tarojs/components';
-import { useEffect, useState } from "react";
-import { HOME_PAGE } from "@/consts";
+import { View, Text, Image } from '@tarojs/components';
+import { useMount } from "ahooks";
+import { HOME_PAGE, PRO_SUB_TITLE, PRO_TITLE } from "@/consts";
+import { switchTab } from "@/utils";
 import './index.scss';
 
 const Splash: FC = () => {
-  const [countdown, setCountdown] = useState<number>(5);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      if (countdown > 1) {
-        setCountdown(countdown - 1);
-      } else {
-        clearInterval(timer);
-        redirectToHomePage();
-      }
-    }, 1000);
+  useMount(async () => {
+    await getUserInfo();
+  })
 
-    return () => clearInterval(timer);
-  }, [countdown]);
-
-  const redirectToHomePage = () => {
-    Taro.redirectTo({
-      url: HOME_PAGE,
-    });
-  };
-
-  const handleSkip = () => {
-    redirectToHomePage();
-  };
+  const getUserInfo = async () => {
+    try {
+      // TODO:
+      const { userInfo } = await Taro.getUserInfo();
+      console.log(userInfo);
+    } catch (error) {
+      console.error('获取用户信息失败：', error);
+    } finally {
+      switchTab(HOME_PAGE);
+    }
+  }
 
   return (
-    <View className='splash-container'>
-      <Button className='skip-button' onClick={handleSkip}>
-        跳过 {countdown}s
-      </Button>
+    <View className='welcome'>
+      <View className='title-wrapper'>
+        <Text className='title'>{PRO_TITLE}</Text>
+        <Text className='sub-title'>{PRO_SUB_TITLE}</Text>
+      </View>
+      <View className='loading-wrapper'>
+        <Image src={require('@/assets/images/loading.png')} className='loading-icon' />
+        <Text className='loading-text'>订单查询中</Text>
+      </View>
     </View>
   );
 };
