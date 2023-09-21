@@ -12,12 +12,7 @@ import './index.scss';
 const Index: FC = () => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [data, setData] = useState([{
-    shopName: '太原市万柏林区牛肉店铺',
-    title: '牛肉商行',
-    lastOrderTime: '2023-12-12 12:12:12',
-    phoneNumber: '19828360146',
-  }] as any[]);
+  const [data, setData] = useState([] as any[]);
 
   // TODO: 对接接口
   const fetchData = async (pageNum: number) => {
