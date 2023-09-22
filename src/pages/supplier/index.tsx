@@ -6,7 +6,7 @@ import Empty from "@/components/empty";
 import SupplierCard from "@/components/supplierCard";
 import { useEffect, useState } from "react";
 import { navigateToTab } from "@/utils";
-import { ADD_SUPPLIER_PAGE, ONE_CLICK_ORDER_PAGE } from "@/consts";
+import { ADD_SUPPLIER_PAGE, ONE_CLICK_ORDER_PAGE, SUPPLIER_INFO_PAGE } from "@/consts";
 import './index.scss';
 
 const Index: FC = () => {
@@ -48,12 +48,12 @@ const Index: FC = () => {
       >
         添加供应商
       </AtButton>
-      <View className='at-article__h2 shop'>我的供应商</View>
       <ScrollView
         scrollY
         onScrollToLower={handleScrollToLower}
         style={{ height: '550px' }}
       >
+        <View className='at-article__h2' style={{ marginBottom: '10px' }}>我的供应商</View>
         {data.length === 0 ? (
           <Empty>没有供应商，请添加</Empty>
         ) : (
@@ -65,7 +65,7 @@ const Index: FC = () => {
               lastOrderTime={item.lastOrderTime}
               phoneNumber={item.phoneNumber}
               onPlaceOrder={() => {}}
-              onViewShopInfo={() => {}}
+              onViewShopInfo={() => navigateToTab(SUPPLIER_INFO_PAGE)}
             />
           ))
         )}

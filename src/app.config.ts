@@ -14,6 +14,17 @@ export default {
     navigationBarTitleText: '熟客来采',
     navigationBarTextStyle: 'black'
   },
+  requiredPrivateInfos: [
+    "getLocation",
+    "onLocationChange",
+    "startLocationUpdateBackground"
+  ],
+  permission: {
+    "scope.userLocation": {
+      desc: "你的位置信息将用于获取您的当前位置",
+      sync: true
+    }
+  },
   tabBar: {
     backgroundColor: '#fff',
     borderStyle: 'black',
