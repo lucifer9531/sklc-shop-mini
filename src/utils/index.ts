@@ -1,29 +1,34 @@
 import Taro from "@tarojs/taro";
 import { GD_KEY } from "@/consts";
+import { getLocation } from "@/api/data";
 
-export function switchTab (route: string) {
+export function switchTab(route: string) {
   Taro.switchTab({
     url: route,
   });
 }
 
-export function navigateToTab (route: string) {
+export function navigateToTab(route: string) {
   Taro.navigateTo({
     url: route,
   });
 }
 
-export async function getLocationInfo(): Promise<{ province: string | null; city: string | null; district: string | null }> {
+export async function getLocationInfo(): Promise<{
+  province: string | null;
+  city: string | null;
+  district: string | null
+}> {
   return new Promise<{ province: string | null; city: string | null; district: string | null }>((resolve, reject) => {
     Taro.getLocation({
       type: 'gcj02',
       success: async (res) => {
         try {
-          const response = await Taro.request({
-            url: `https://restapi.amap.com/v3/geocode/regeo?location=${res.longitude},${res.latitude}&key=${GD_KEY}`,
-            method: 'GET',
+          const response = await getLocation({
+            location: [res.longitude, res.latitude].join(','),
+            key: GD_KEY
           });
-          const { province, city, district } = response?.data?.regeocode?.addressComponent;
+          const {province, city, district} = response.data?.regeocode?.addressComponent;
           resolve({
             province,
             city,
