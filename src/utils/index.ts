@@ -14,6 +14,10 @@ export function navigateToTab(route: string) {
   });
 }
 
+export function navigateBack() {
+  Taro.navigateBack();
+}
+
 export async function getLocationInfo(): Promise<{
   province: string | null;
   city: string | null;
@@ -49,6 +53,7 @@ export async function getLocationInfo(): Promise<{
               Taro.openSetting();
             } else if (tip.cancel) {
               reject(new Error('用户拒绝授权'));
+              navigateBack();
             }
           },
         });

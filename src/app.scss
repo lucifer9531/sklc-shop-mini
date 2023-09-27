@@ -1,4 +1,14 @@
+$color-brand: #1ec263;
+$color-brand-light: #56d18a;
+$color-brand-dark: #189b4f;
+
 @import 'taro-ui/dist/style/index.scss';
+
+page {
+  width: 100%;
+  height: 100%;
+  background: #fff;
+}
 
 @mixin text-ellipsis {
   overflow: hidden;

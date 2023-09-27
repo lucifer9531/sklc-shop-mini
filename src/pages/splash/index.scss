@@ -1,44 +1,58 @@
 .welcome {
-  width: 100%;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   position: relative;
 
   .title-wrapper {
-    position: absolute;
-    top: 15%;
-    left: 10%;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
 
-    .title {
-      font-size: 70px;
-      font-weight: 400;
+    .circle {
+      width: 120px;
+      height: 120px;
+      position: absolute;
+      top: 488px;
+      border-radius: 50%;
+      background-color: #1ec263;
+      display: flex;
+
+      .title {
+        font-family: HYYakuHei;
+        font-size: 64px;
+        font-weight: 700;
+        color: #fff;
+        margin: auto;
+      }
     }
 
     .sub-title {
-      font-size: 50px;
-      font-weight: 300;
-      margin: 20px 0 0 40px;
+      font-family: Microsoft YaHei;
+      font-size: 28px;
+      font-weight: 400;
+      line-height: 22px;
+      position: absolute;
+      top: 638px;
     }
   }
 
   .loading-wrapper {
     display: flex;
-    justify-content: flex-start;
     position: absolute;
-    bottom: 30px;
-    right: 30px;
+    bottom: 60px;
 
     .loading-icon {
-      width: 40px;
-      height: 40px;
-      margin-right: 10px;
+      width: 32px;
+      height: 32px;
       animation: spin 3s linear infinite;
+      margin-right: 12px;
     }
 
     .loading-text {
-      font-size: 30px;
+      font-size: 24px;
     }
   }
 }

@@ -28,12 +28,14 @@ const Splash: FC = () => {
   return (
     <View className='welcome'>
       <View className='title-wrapper'>
-        <Text className='title'>{PRO_TITLE}</Text>
+        <View className='circle'>
+          <Text className='title'>{PRO_TITLE}</Text>
+        </View>
         <Text className='sub-title'>{PRO_SUB_TITLE}</Text>
       </View>
       <View className='loading-wrapper'>
         <Image src={require('@/assets/images/loading.png')} className='loading-icon' />
-        <Text className='loading-text'>订单查询中</Text>
+        <Text className='loading-text'>Loading...</Text>
       </View>
     </View>
   );

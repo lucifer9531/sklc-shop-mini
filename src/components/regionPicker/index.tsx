@@ -5,8 +5,6 @@ import { useAsyncEffect } from 'ahooks';
 import { useState } from 'react';
 import { AtListItem } from 'taro-ui';
 import { GD_KEY } from "@/consts";
-import { getLocationInfo } from "@/utils";
-
 
 export type TRegionObj = {
   regionValue: number[];
@@ -17,10 +15,11 @@ export type TRegionObj = {
 export type TRegionPicker = {
   onRegionChange: (e: any, obj: TRegionObj) => void;
   initialValues?: number[];
+  initialLocation?: string[];
 };
 
 const RegionPicker: FC<TRegionPicker> = (props) => {
-  const { onRegionChange, initialValues = [] } = props;
+  const { onRegionChange, initialValues = [], initialLocation = [] } = props;
 
   const [regionAll, setRegionAll] = useState<any[]>([]);
   const [regionData, setRegionData] = useState<any[]>([]);
@@ -29,36 +28,32 @@ const RegionPicker: FC<TRegionPicker> = (props) => {
   const [regionValObjArr, setRegionValObjArr] = useState<any[]>([]);
 
   useAsyncEffect(async () => {
-    const res = await getRegion({
-      subdistrict: 3,
-      key: GD_KEY,
-    });
-    const { province, city, district} = await getLocationInfo();
+    const res = await getRegion({ subdistrict: 3, key: GD_KEY });
     if (res) {
       const regionAllTemp = res?.data?.districts?.[0]?.districts;
       setRegionAll(regionAllTemp);
       let range: any = [];
       let temp: any = [];
-      let provinceIdx: number = -1;
-      let cityIdx: number = -1;
-      let districtIdx: number = -1;
+      let provinceIdx: number = 0;
+      let cityIdx: number = 0;
+      let districtIdx: number = 0;
       for (let i = 0; i < regionAllTemp?.length; i++) {
         temp.push(regionAllTemp?.[i]?.name);
       }
       range.push(temp);
-      if (province && temp.indexOf(province) !== -1) provinceIdx = temp.indexOf(province);
+      if (initialLocation[0] && temp.indexOf(initialLocation[0]) !== -1) provinceIdx = temp.indexOf(initialLocation[0]);
       temp = [];
       for (let i = 0; i < regionAllTemp?.[provinceIdx || regionValue?.[0] || 0]?.districts?.length; i++) {
         temp.push(regionAllTemp?.[provinceIdx || regionValue?.[0] || 0]?.districts?.[i]?.name);
       }
       range.push(temp);
-      if (city && temp.indexOf(city) !== -1) cityIdx = temp.indexOf(city);
+      if (initialLocation[1] && temp.indexOf(initialLocation[1]) !== -1) cityIdx = temp.indexOf(initialLocation[1]);
       temp = [];
       for (let i = 0; i < regionAllTemp?.[provinceIdx || regionValue?.[0] || 0]?.districts?.[cityIdx || regionValue?.[1] || 0]?.districts?.length; i++) {
         temp.push(regionAllTemp?.[provinceIdx || regionValue?.[0] || 0]?.districts?.[cityIdx || regionValue?.[1] || 0]?.districts[i]?.name);
       }
       range.push(temp);
-      if (district && temp.indexOf(district) !== -1) districtIdx = temp.indexOf(district);
+      if (initialLocation[2] && temp.indexOf(initialLocation[2]) !== -1) districtIdx = temp.indexOf(initialLocation[2]);
       setRegionData(range);
       const tempObjArr = [
         {
@@ -76,11 +71,7 @@ const RegionPicker: FC<TRegionPicker> = (props) => {
       ];
       setRegionValue([provinceIdx, cityIdx, districtIdx]);
       setRegionValObjArr(tempObjArr);
-      setRegionText(
-          regionValue?.length > 0
-              ? `${tempObjArr?.[0]?.name || ''} ${tempObjArr?.[1]?.name || ''} ${tempObjArr?.[2]?.name || ''}`
-              : '',
-      );
+      setRegionText(tempObjArr?.length > 0 ? `${tempObjArr?.[0]?.name || ''} ${tempObjArr?.[1]?.name || ''} ${tempObjArr?.[2]?.name || ''}` : '');
     }
   }, []);
 
@@ -147,10 +138,8 @@ const RegionPicker: FC<TRegionPicker> = (props) => {
           range={[...regionData]}
           value={regionValue}
           onChange={(e) => {
-              const tempRegionText = `${regionValObjArr?.[0]?.name || ''} ${
-                  regionValObjArr?.[1]?.name || ''
-              } ${regionValObjArr?.[2]?.name || ''}`;
-              setRegionText(tempRegionText);
+            const tempRegionText = `${regionValObjArr?.[0]?.name || ''} ${regionValObjArr?.[1]?.name || ''} ${regionValObjArr?.[2]?.name || ''}`;
+            setRegionText(tempRegionText);
               onRegionChange(e, {
                 regionValue: e.detail?.value,
                 regionText: tempRegionText,
@@ -159,11 +148,10 @@ const RegionPicker: FC<TRegionPicker> = (props) => {
             }}
           onColumnChange={onColumnChange}
         >
-          <AtListItem title='所在地' arrow='right' extraText={regionText} />
+          <AtListItem title='地址' arrow='right' extraText={regionText} />
         </Picker>
       </View>
   );
 };
 
 export default RegionPicker;
-

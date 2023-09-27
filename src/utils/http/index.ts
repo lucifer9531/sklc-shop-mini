@@ -8,12 +8,11 @@ class httpRequest {
 
   baseOptions(params: { [key: string]: any }, method = "GET") {
     let { url, data } = params;
-    let contentType = "application/json";
-    contentType = params.contentType || contentType;
+    const contentType = params.contentType || "application/json";
     const option: any = {
       url: `${getBaseUrl(url)}${url}`,
       data,
-      method: method,
+      method,
       header: {
         'content-type': contentType,
       }
@@ -25,18 +24,17 @@ class httpRequest {
     return this.baseOptions({ url, data });
   }
 
-  post(url: string, data: any, contentType?: string) {
+  post(url: string, data?: any, contentType?: string) {
     return this.baseOptions({ url, data, contentType }, "POST");
   }
 
-  put(url: string, data: any) {
+  put(url: string, data?: any) {
     return this.baseOptions({ url, data }, "PUT");
   }
 
-  delete(url: string, data: any) {
+  delete(url: string, data?: any) {
     return this.baseOptions({ url, data }, "DELETE");
   }
-
 }
 
 export default new httpRequest();

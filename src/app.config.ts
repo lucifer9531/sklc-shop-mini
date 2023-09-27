@@ -6,7 +6,10 @@ export default {
     'pages/supplier/info/index',
     'pages/order/index/index',
     'pages/order/oneClickOrder/index',
-    'pages/center/index/index'
+    'pages/center/index/index',
+    'pages/center/applyCheckIn/index',
+    'pages/center/address/index',
+    'pages/center/addressAdd/index',
   ],
   window: {
     backgroundTextStyle: 'light',

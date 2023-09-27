@@ -3,7 +3,9 @@
   "projectname": "taro-antd",
   "setting": {
     "compileHotReLoad": false,
-    "urlCheck": false
+    "urlCheck": false,
+    "bigPackageSizeSupport": true,
+    "autoAudits": true
   },
   "condition": {}
 }

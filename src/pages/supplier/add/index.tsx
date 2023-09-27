@@ -1,14 +1,15 @@
 import type { FC } from "react";
-import {ScrollView, View} from "@tarojs/components";
+import { ScrollView, View } from "@tarojs/components";
 import RegionPicker from "@/components/regionPicker";
 
 import { AtActivityIndicator, AtButton, AtInput } from "taro-ui";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Empty from "@/components/empty";
 import SupplierCard from "@/components/supplierCard";
-import { navigateToTab } from "@/utils";
+import { getLocationInfo, navigateToTab } from "@/utils";
 import { SUPPLIER_INFO_PAGE } from "@/consts";
 import Taro from "@tarojs/taro";
+import { useAsyncEffect } from "ahooks";
 import './index.scss';
 
 const AddSupplier: FC = () => {
@@ -17,11 +18,12 @@ const AddSupplier: FC = () => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [data, setData] = useState([] as any[]);
+  const [address, setAddress] = useState<any>([]);
 
-  useEffect(() => {
-    Taro.pageScrollTo({ scrollTop: 0, duration: 0 });
-    fetchData(page);
-  }, [page]);
+  useAsyncEffect(async () => {
+    const { province, city, district} = await getLocationInfo();
+    setAddress([province, city, district]);
+  }, []);
 
   // TODO: 对接接口
   const fetchData = async (pageNum: number) => {
@@ -35,6 +37,11 @@ const AddSupplier: FC = () => {
     }
   };
 
+  useAsyncEffect(async () => {
+    Taro.pageScrollTo({ scrollTop: 0, duration: 0 });
+    await fetchData(page);
+  }, [page]);
+
   const handleScrollToLower = () => {
     if (!loading) {
       setLoading(true);
@@ -44,19 +51,25 @@ const AddSupplier: FC = () => {
 
   return (
     <View>
-     <RegionPicker onRegionChange={() => {}} initialValues={[0, 0, 0]} />
+      {
+        address.length > 0 &&
+        <RegionPicker onRegionChange={() => {}} initialLocation={address} />
+      }
       <AtInput
         name='shopName'
         title='店名'
         type='text'
-        placeholder='请输入店名'
+        placeholder='店铺名称'
         value={shopName}
         onChange={() => setShopName}
       />
-      <AtButton style={{ marginTop: '20px' }} type='primary' size='small'>查询</AtButton>
+      <AtButton className='search-btn' type='primary' size='normal'>查询</AtButton>
       {
         data.length > 0 &&
-        <View className='at-article__h3 result'>查询结果</View>
+        <>
+          <View className='space'></View>
+          <View className='result'>查询结果</View>
+        </>
       }
       <ScrollView
         scrollY

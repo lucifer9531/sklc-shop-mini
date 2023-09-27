@@ -1,36 +1,108 @@
 .supplier-card {
-  margin-bottom: 20px;
+  width: calc(100% - 40px);
+  margin: 20px;
+  height: 340px;
+  border-radius: 18px;
+  box-shadow: 0 12px 60px 10px #0000000D;
+  position: relative;
 
-  .at-card {
-    border-radius: 10px;
+  .top-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 20px 20px 20px;
 
-    .view-shop-info {
-      color: #0090ff;
-    }
-
-    .content {
+    .shop {
       display: flex;
-      flex-direction: column;
-      font-size: 28px;
-      line-height: 1.8;
+      justify-content: flex-start;
+
+      .title {
+        font-family: PingFang SC;
+        font-size: 36px;
+        font-weight: 500;
+      }
+
+      .tag {
+        margin: 12px 0 0 24px;
+      }
     }
 
-    .operation-btn {
+    .details {
+      width: 80px;
+      padding: 12px 20px 12px 20px;
+      border-radius: 100px;
+      background: #F5F6F7;
       display: flex;
       justify-content: space-between;
-      margin-top: 10px;
 
-      .icon {
-        margin: 0 10px 8px 0;
+      .shop-icon {
+        width: 32px;
+        height: 32px;
       }
 
-      .at-button {
-        flex: 1;
-
-        &.mobile-btn {
-          margin-left: 15px;
-        }
+      .check-in {
+        color: #1ec263;
+        font-size: 24px;
       }
+    }
+  }
+
+  .medium-container {
+    display: flex;
+    flex-direction: column;
+    font-family: PingFang SC;
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 2;
+    margin-left: 20px;
+  }
+
+  .bottom-container {
+    padding: 20px 20px 20px 0;
+    display: flex;
+    float: right;
+
+    .call-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      .call-icon {
+        width: 48px;
+        height: 48px;
+      }
+
+      .phone-concat {
+        font-family: PingFang SC;
+        font-size: 24px;
+        margin: 12px 20px 0 0;
+        font-weight: 400;
+        color: #040000;
+      }
+    }
+
+    .btn {
+      width: 260px;
+    }
+  }
+  .bind-tag {
+    position: absolute;
+    width: 69px;
+    height: 38px;
+    top: 260px;
+    left: 0;
+    padding: 4px 8px 4px 8px;
+    border-radius:  0 999px 999px 0;
+    background: linear-gradient(0deg, #FFFFFF, #FFFFFF),
+    linear-gradient(0deg, rgba(227, 115, 24, 0.4), rgba(227, 115, 24, 0.4));
+    border: 1px solid #E3731866;
+    display: grid;
+
+    .bind-tag-text {
+      font-family: PingFang SC;
+      font-size: 22px;
+      color: #E37318E5;
+      margin: auto;
     }
   }
 }
