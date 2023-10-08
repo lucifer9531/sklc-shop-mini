@@ -60,7 +60,9 @@ const SupplierCard: FC<SupplierCardProps> = (
           <Image src={require('@/assets/images/call.png')} className='call-icon' />
           <Text className='phone-concat'>电话联系</Text>
         </View>
-        <AtButton onClick={isAdd ? addSupplier : onPlaceOrder} className='btn' type='primary' size='normal'>{ isAdd ? '添加我为供应商' : '下单' }</AtButton>
+        <View>
+          <AtButton onClick={isAdd ? addSupplier : onPlaceOrder} type='primary' size='small'>{ isAdd ? '添加我为供应商' : '下单' }</AtButton>
+        </View>
       </View>
       {
         isBind &&

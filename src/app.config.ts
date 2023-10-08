@@ -8,6 +8,7 @@ export default {
     'pages/order/oneClickOrder/index',
     'pages/center/index/index',
     'pages/center/applyCheckIn/index',
+    'pages/center/monthOrder/index',
     'pages/center/address/index',
     'pages/center/addressAdd/index',
   ],

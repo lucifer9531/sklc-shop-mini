@@ -18,6 +18,7 @@ const Index: FC = () => {
     title: '牛肉商行',
     lastOrderTime: '2022-11-12 12:12:12',
     phoneNumber: '19828360146',
+    tag: '22'
   }, {
     shopName: '太原市万柏林区牛肉商行',
     title: '牛肉商行',
@@ -72,6 +73,7 @@ const Index: FC = () => {
           data.map((item, index) => (
             <SupplierCard
               key={index}
+              tag={item.tag}
               shopName={item.shopName}
               title={item.title}
               lastOrderTime={item.lastOrderTime}

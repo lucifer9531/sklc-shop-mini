@@ -1,0 +1,49 @@
+.page-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  .btn-group {
+    display: flex;
+    justify-content: space-between;
+    padding: 30px;
+    position: absolute;
+    bottom: 30px;
+
+    .btn {
+      width: 46vw;
+      margin-right: 12px;
+    }
+  }
+
+  .operation-container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    bottom: 180px;
+    right: 0;
+
+    .order-container {
+      width: 100px;
+      height: 80px;
+      padding: 8px 16px 8px 16px;
+      border-radius: 1998px 0 0 1998px;
+      border: 1px solid #1EC263;
+      display: grid;
+      margin-bottom: 10px;
+
+      .order-text {
+        font-family: PingFang SC;
+        font-size: 24px;
+        font-weight: 600;
+        color: #1EC263;
+        margin: auto;
+      }
+    }
+  }
+
+  .copyValue {
+    background-color: #f3f3f3;
+    padding: 30px;
+  }
+}

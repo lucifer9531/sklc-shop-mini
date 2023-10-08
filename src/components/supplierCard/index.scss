@@ -1,7 +1,6 @@
 .supplier-card {
   width: calc(100% - 40px);
   margin: 20px;
-  height: 340px;
   border-radius: 18px;
   box-shadow: 0 12px 60px 10px #0000000D;
   position: relative;
@@ -9,7 +8,7 @@
   .top-container {
     display: flex;
     justify-content: space-between;
-    padding: 20px 20px 20px 20px;
+    padding: 20px 20px 0 20px;
 
     .shop {
       display: flex;
@@ -22,7 +21,7 @@
       }
 
       .tag {
-        margin: 12px 0 0 24px;
+        margin: 5px 0 0 24px;
       }
     }
 
@@ -53,43 +52,40 @@
     font-size: 28px;
     font-weight: 400;
     line-height: 2;
-    margin-left: 20px;
+    padding-left: 20px;
   }
 
   .bottom-container {
-    padding: 20px 20px 20px 0;
+    padding: 10px 20px 20px 0;
     display: flex;
-    float: right;
+    justify-content: flex-end;
 
     .call-container {
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      margin-right: 20px;
+
 
       .call-icon {
-        width: 48px;
-        height: 48px;
+        width: 32px;
+        height: 32px;
       }
 
       .phone-concat {
         font-family: PingFang SC;
-        font-size: 24px;
-        margin: 12px 20px 0 0;
+        font-size: 20px;
         font-weight: 400;
         color: #040000;
       }
     }
-
-    .btn {
-      width: 260px;
-    }
   }
   .bind-tag {
     position: absolute;
-    width: 69px;
-    height: 38px;
-    top: 260px;
+    width: 60px;
+    height: 20px;
+    bottom: 30px;
     left: 0;
     padding: 4px 8px 4px 8px;
     border-radius:  0 999px 999px 0;
@@ -100,7 +96,7 @@
 
     .bind-tag-text {
       font-family: PingFang SC;
-      font-size: 22px;
+      font-size: 14px;
       color: #E37318E5;
       margin: auto;
     }
