@@ -1,14 +1,22 @@
 import type { FC } from "react";
-import {Button, Input, Text, View} from "@tarojs/components";
+import { Button, Input, Picker, Text, View, Image } from "@tarojs/components";
 import Table from "@/components/table";
 import Taro from "@tarojs/taro";
-import { useState } from "react";
-import {AtButton, AtModal, AtModalAction, AtModalContent, AtModalHeader} from "taro-ui";
+import { useRef, useState } from "react";
+import { AtButton, AtListItem, AtModal, AtModalAction, AtModalContent, AtModalHeader } from "taro-ui";
+import OccupyingRow from "@/components/occupyingRow";
+import { useMount } from "ahooks";
 import './index.scss';
 
 const OneClickOrder: FC = () => {
 
-  let [dataSource, setDataSource] = useState<any[]>([
+  const router = Taro.useRouter();
+  const inputRef = useRef();
+  const [newProductName, setNewProductName] = useState<string>('');
+  const [pastedText, setPastedText] = useState<string>('');
+  const [isOpened, setIsOpened] = useState<boolean>(false);
+  const [voiceModelIsOpened, setVoiceModelIsOpened] = useState<boolean>(false);
+  const [dataSource, setDataSource] = useState<any[]>([
     {
       id: 1,
       number: '1',
@@ -28,8 +36,6 @@ const OneClickOrder: FC = () => {
       count: '12斤',
     },
   ]);
-  const [isOpened, setIsOpened] = useState<boolean>(false);
-  let [copyValue, setCopyValue] = useState<string>('');
 
   const columns = [
     {
@@ -69,10 +75,7 @@ const OneClickOrder: FC = () => {
       confirmText: '确定',
       confirmColor: '#1EC263',
       success(res) {
-        if (res.confirm) {
-          dataSource = dataSource.filter(item => item.id !== id);
-          setDataSource(dataSource);
-        }
+        res.confirm && setDataSource(prevDataSource => prevDataSource.filter(item => item.id !== id));
       }
     })
   }
@@ -85,25 +88,68 @@ const OneClickOrder: FC = () => {
     record.count = event.detail.value;
   }
 
-  const bindCopyValue = (event: any) => {
-    copyValue = event.detail.value;
-    setCopyValue(event.detail.value);
+  const handleAddProduct = () => {
+    if (newProductName.trim() !== '') {
+      const newProduct = {
+        id: dataSource.length + 1,
+        number: dataSource.length + 1,
+        name: newProductName,
+        count: '',
+      };
+      setDataSource([...dataSource, newProduct]);
+      setNewProductName('');
+    }
   }
 
-  const addValue = () => {
-    dataSource.push({ id: dataSource.length + 1, number: dataSource.length + 1, name: copyValue, count: '' });
-    setDataSource(dataSource);
+  const handlePastedConfirm = () => {
+    if (pastedText.trim() !== '') {
+      const newProduct = {
+        id: dataSource.length + 1,
+        number: dataSource.length + 1,
+        name: pastedText,
+        count: '',
+      };
+      setDataSource([...dataSource, newProduct]);
+      setIsOpened(false);
+      setPastedText('');
+    }
+  };
+
+  const clearPasted = () => {
     setIsOpened(false);
+    setPastedText('');
   }
 
-  const clearValue = () => {
-    copyValue = '';
-    setCopyValue(copyValue);
-    setIsOpened(false);
+  const startVoiceRecognition = async () => {
+    setVoiceModelIsOpened(true);
+    const { tempFilePath } = await Taro.startRecord({});
+    console.log('录音文件路径:', tempFilePath);
   }
+
+  const handleVoiceModelClose = () => {
+    Taro.stopRecord();
+    setVoiceModelIsOpened(false);
+  }
+
+  useMount(() => {
+    const { id } = router.params;
+    if (id) {
+      // TODO: 从所有的供应商列表里查询当前商户
+    }
+  })
 
   return (
     <View className='page-container'>
+      <Picker mode='selector' range={[]} value={0} onChange={() => {}}>
+        <AtListItem title='选择供应商' arrow='right' extraText='' />
+      </Picker>
+      <Picker mode='time' value='' onChange={() => {}}>
+        <AtListItem title='送达日期' extraText='' />
+      </Picker>
+	    <Picker mode='selector' range={[]} value={0} onChange={() => {}}>
+		    <AtListItem title='送货地址' arrow='right' extraText='' />
+	    </Picker>
+      <OccupyingRow />
       <Table
         colStyle={{ padding: '0 5px' }}
         columns={columns}
@@ -112,6 +158,7 @@ const OneClickOrder: FC = () => {
         style={{
           margin: '0 auto',
           width: '92vw',
+          marginTop: '20px',
         }}
         scroll={{
           x: '100vw',
@@ -119,29 +166,53 @@ const OneClickOrder: FC = () => {
         }}
       />
       <View className='operation-container'>
-        <View className='order-container'>
+        <View className='order-container' onClick={startVoiceRecognition}>
           <Text className='order-text'>语音输入</Text>
         </View>
         <View className='order-container' onClick={() => setIsOpened(true)}>
           <Text className='order-text'>文本粘贴</Text>
         </View>
-        <View className='order-container'>
-          <Text className='order-text'>增加货品</Text>
+        {/*@ts-ignore*/}
+        <View className='order-container' onClick={() => inputRef.current?.focus()}>
+          <Text className='order-text'>
+            增加货品
+            <Input
+              ref={inputRef}
+              type='text'
+              value={newProductName}
+              onInput={(e) => setNewProductName(e.detail.value)}
+              onConfirm={handleAddProduct}
+            />
+          </Text>
         </View>
       </View>
       <View className='btn-group'>
         <AtButton className='btn' size='normal' type='secondary'>清空</AtButton>
         <AtButton className='btn' size='normal' type='primary'>提交</AtButton>
       </View>
-      <AtModal isOpened={isOpened} onClose={() => setIsOpened(false)}>
+      <AtModal isOpened={isOpened} className='pasted-model' onClose={() => setIsOpened(false)}>
         <AtModalHeader>粘贴文本内容</AtModalHeader>
         <AtModalContent>
-          <Input className='copyValue' onInput={(e) => bindCopyValue(e)} placeholder='粘贴' value={copyValue} />
+          {
+            isOpened &&
+            <Input
+              className='copyValue'
+              type='text'
+              placeholder='粘贴'
+              onInput={(e) => setPastedText(e.detail.value)}
+              value={pastedText}
+            />
+          }
         </AtModalContent>
         <AtModalAction>
-          <Button onClick={clearValue}>清空</Button>
-          <Button onClick={addValue}>确定</Button>
+          <Button onClick={clearPasted}>清空</Button>
+          <Button onClick={handlePastedConfirm}>确定</Button>
         </AtModalAction>
+      </AtModal>
+      <AtModal isOpened={voiceModelIsOpened} onClose={handleVoiceModelClose} className='voice-model'>
+        <View className='voice-container'>
+          <Image src={require('@/assets/images/wifi.png')} className='voice-icon' />
+        </View>
       </AtModal>
     </View>
   )

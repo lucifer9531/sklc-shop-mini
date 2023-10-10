@@ -1,12 +1,15 @@
 import type { FC } from "react";
-import {ScrollView, View, Text} from "@tarojs/components";
+import { ScrollView, View, Text } from "@tarojs/components";
 import OrderCard from "@/components/orderCard";
 import { useState } from "react";
 import Empty from "@/components/empty";
-import {AtActivityIndicator, AtButton, AtModal, AtModalContent} from "taro-ui";
+import { AtActivityIndicator, AtButton, AtModal, AtModalContent } from "taro-ui";
 import { useAsyncEffect } from "ahooks";
 import Taro from "@tarojs/taro";
-import {SEND_REMIND, SEND_REMIND_REL} from "@/consts";
+import {ORDER_INFO_PAGE, SEND_REMIND, SEND_REMIND_REL} from "@/consts";
+import Select from "@/components/select";
+import { navigateToTab } from "@/utils";
+import OccupyingRow from "@/components/occupyingRow";
 import './index.scss';
 
 const Order: FC = () => {
@@ -60,7 +63,7 @@ const Order: FC = () => {
   const sureMessage = () => {
     setIsOpened(false);
     data.map(item => item.id === currentSelected.id && (item.disabled = !item.disabled));
-    setData(data);
+    setData([...data]);
   }
 
   useAsyncEffect(async () => {
@@ -70,6 +73,12 @@ const Order: FC = () => {
 
   return (
     <View>
+      <View className='search-container'>
+        <Select options={[{ id: 1, label: 'www' }, { id: 2, label: 'ccc' }]} title='运单状态' />
+        <Select options={[{ id: 1, label: 'www' }, { id: 2, label: 'ccc' }]} title='支付状态' />
+        <Select options={[{ id: 1, label: 'www' }, { id: 2, label: 'ccc' }]} title='时间筛选' />
+      </View>
+      <OccupyingRow />
       <ScrollView
         scrollY
         onScrollToLower={handleScrollToLower}
@@ -89,7 +98,7 @@ const Order: FC = () => {
               transportStatus={item.transportStatus}
               payStatus={item.payStatus}
               disabled={item.disabled}
-              onViewShopInfo={() => {}}
+              onViewShopInfo={() => navigateToTab(`${ORDER_INFO_PAGE}?id=${item.id}`)}
               payCallBack={() => payCallBack(item.id, item.isAlSend)}
             />
           ))

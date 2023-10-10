@@ -3,6 +3,7 @@ import { View, Text } from "@tarojs/components";
 import { APPLY_NOTE_TEXT } from "@/consts";
 import {AtButton, AtForm, AtInput, AtRadio} from "taro-ui";
 import { useState } from "react";
+import OccupyingRow from "@/components/occupyingRow";
 import './index.scss';
 
 const ApplyCheckIn: FC = () => {
@@ -22,7 +23,7 @@ const ApplyCheckIn: FC = () => {
           ))
         }
       </View>
-      <View className='space'></View>
+      <OccupyingRow />
       <AtForm>
         <AtInput
           name='shopName'

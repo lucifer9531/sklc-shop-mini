@@ -10,6 +10,7 @@ import { getLocationInfo, navigateToTab } from "@/utils";
 import { SUPPLIER_INFO_PAGE } from "@/consts";
 import Taro from "@tarojs/taro";
 import { useAsyncEffect } from "ahooks";
+import OccupyingRow from "@/components/occupyingRow";
 import './index.scss';
 
 const AddSupplier: FC = () => {
@@ -67,7 +68,7 @@ const AddSupplier: FC = () => {
       {
         data.length > 0 &&
         <>
-          <View className='space'></View>
+          <OccupyingRow />
           <View className='result'>查询结果</View>
         </>
       }

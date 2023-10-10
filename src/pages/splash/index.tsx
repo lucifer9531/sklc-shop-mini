@@ -1,28 +1,21 @@
 import type { FC } from 'react';
 
-import Taro from '@tarojs/taro';
 import { View, Text, Image } from '@tarojs/components';
 import { useMount } from "ahooks";
-import { HOME_PAGE, PRO_SUB_TITLE, PRO_TITLE } from "@/consts";
+import { HOME_PAGE, PRO_SUB_TITLE, PRO_TITLE, USER_CENTER_PAGE } from "@/consts";
 import { switchTab } from "@/utils";
+import { checkLogin } from "@/utils/user";
 import './index.scss';
 
 const Splash: FC = () => {
 
   useMount(async () => {
-    await getUserInfo();
-  })
+    await judgeIsLogin();
+  });
 
-  const getUserInfo = async () => {
-    try {
-      // TODO:
-      const { userInfo } = await Taro.getUserInfo();
-      console.log(userInfo);
-    } catch (error) {
-      console.error('获取用户信息失败：', error);
-    } finally {
-      switchTab(HOME_PAGE);
-    }
+  const judgeIsLogin = async () => {
+    const isLogin = await checkLogin();
+    switchTab(isLogin ? HOME_PAGE : `${USER_CENTER_PAGE}?isLogin=${isLogin}`);
   }
 
   return (

@@ -10,7 +10,11 @@ export const SUPPLIER_INFO_PAGE: string = '/pages/supplier/info/index';
 
 export const ONE_CLICK_ORDER_PAGE: string = '/pages/order/oneClickOrder/index';
 
+export const ORDER_INFO_PAGE: string = '/pages/order/orderInfo/index';
+
 export const APPLY_CHECK_IN_PAGE: string = '/pages/center/applyCheckIn/index';
+
+export const USER_CENTER_PAGE: string = '/pages/center/index/index';
 
 export const MONTH_ORDER_PAGE: string = 'pages/center/monthOrder/index';
 

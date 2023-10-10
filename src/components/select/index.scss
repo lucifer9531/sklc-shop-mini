@@ -1,0 +1,58 @@
+.com-selectBox {
+  width: 100%;
+}
+
+.com-sContent {
+  display: flex;
+  justify-content: flex-start;
+  padding: 24px;
+}
+
+.com-sTxt {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: PingFang SC;
+  font-size: 24px;
+  font-weight: 400;
+  margin-right: 14px;
+
+}
+
+.com-sContent .com-sImg {
+  width: 18px;
+  height: 14px;
+  margin-top: 12px;
+  transition: all 0.3s ease;
+}
+
+.com-sList {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 80px;
+  box-sizing: border-box;
+  background: #fff;
+  box-shadow: 0 12px 60px 0 #0000001A;
+  border-radius: 2px;
+  z-index: 999;
+  max-height: 200px;
+  overflow: auto;
+}
+
+.com-sItem {
+  padding: 30px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: PingFang SC;
+  font-size: 16px;
+  font-weight: 400;
+  text-align: left;
+  border-bottom: 1px solid #E7E7E7;
+
+}
+
+.com-sItem.cur {
+  color: #1EC263;
+}

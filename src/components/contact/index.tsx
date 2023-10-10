@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { Button } from '@tarojs/components'
-import './contact.scss';
+import './index.scss';
 
 
 const Contact: FC = (props: any) => {

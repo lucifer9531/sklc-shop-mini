@@ -42,8 +42,38 @@
     }
   }
 
-  .copyValue {
-    background-color: #f3f3f3;
-    padding: 30px;
+  .pasted-model {
+
+    .at-modal__content {
+      min-height: auto;
+    }
+
+    .copyValue {
+      background-color: #f3f3f3;
+      padding: 30px;
+    }
+  }
+
+  .voice-model {
+    .at-modal__container {
+       width: 100%;
+      background-color: transparent;
+    }
+
+    .voice-container {
+      width: 160px;
+      height: 160px;
+      border-radius: 12px;
+      background: #000;
+      opacity: 0.8;
+      display: flex;
+      margin: auto;
+
+      .voice-icon {
+        width: 48px;
+        height: 48px;
+        margin: auto;
+      }
+    }
   }
 }

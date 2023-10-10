@@ -7,7 +7,8 @@ import SupplierCard from "@/components/supplierCard";
 import { useState } from "react";
 import { navigateToTab } from "@/utils";
 import { ADD_SUPPLIER_PAGE, ONE_CLICK_ORDER_PAGE, SUPPLIER_INFO_PAGE } from "@/consts";
-import { useAsyncEffect } from "ahooks";
+import { useAsyncEffect, useMount } from "ahooks";
+import OccupyingRow from "@/components/occupyingRow";
 import './index.scss';
 
 const Index: FC = () => {
@@ -18,13 +19,23 @@ const Index: FC = () => {
     title: '牛肉商行',
     lastOrderTime: '2022-11-12 12:12:12',
     phoneNumber: '19828360146',
-    tag: '22'
+    tag: '22',
+    id: '1',
   }, {
     shopName: '太原市万柏林区牛肉商行',
     title: '牛肉商行',
     lastOrderTime: '2022-11-12 12:12:12',
     phoneNumber: '19828360146',
+    id: '2'
   }] as any[]);
+
+  useMount(() => {
+    // TODO: 从缓存中取出订单的数量
+    Taro.setTabBarBadge({
+      index: 1,
+      text: '2',
+    })
+  })
 
   // TODO: 对接接口
   const fetchData = async (pageNum: number) => {
@@ -60,7 +71,7 @@ const Index: FC = () => {
       >
         添加供应商
       </AtButton>
-      <View className='space'></View>
+      <OccupyingRow />
       <ScrollView
         scrollY
         onScrollToLower={handleScrollToLower}
@@ -78,7 +89,7 @@ const Index: FC = () => {
               title={item.title}
               lastOrderTime={item.lastOrderTime}
               phoneNumber={item.phoneNumber}
-              onPlaceOrder={() => {}}
+              onPlaceOrder={() => navigateToTab(`${ONE_CLICK_ORDER_PAGE}?id=${item.id}`)}
               onViewShopInfo={() => navigateToTab(SUPPLIER_INFO_PAGE)}
             />
           ))

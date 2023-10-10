@@ -6,6 +6,7 @@ export default {
     'pages/supplier/info/index',
     'pages/order/index/index',
     'pages/order/oneClickOrder/index',
+    'pages/order/orderInfo/index',
     'pages/center/index/index',
     'pages/center/applyCheckIn/index',
     'pages/center/monthOrder/index',
@@ -31,7 +32,7 @@ export default {
   tabBar: {
     backgroundColor: '#fff',
     borderStyle: 'black',
-    selectedColor: '#2d8cf0',
+    selectedColor: '#1ec263',
     color: '#666',
     list: [
       {
@@ -44,7 +45,7 @@ export default {
         pagePath: "pages/order/index/index",
         iconPath: './assets/images/tab_trend.png',
         selectedIconPath: './assets/images/tab_trend_s.png',
-        text: "订单"
+        text: "订单",
       },
       {
         pagePath: "pages/center/index/index",
