@@ -2,7 +2,7 @@ import type { FC } from 'react';
 
 import { View, Text, Image } from '@tarojs/components';
 import { useMount } from "ahooks";
-import { HOME_PAGE, PRO_SUB_TITLE, PRO_TITLE, USER_CENTER_PAGE } from "@/consts";
+import { HOME_PAGE, PRO_SUB_TITLE, PRO_TITLE, USER_CENTER_PAGE } from "@/constants";
 import { switchTab } from "@/utils";
 import { checkLogin } from "@/utils/user";
 import './index.scss';

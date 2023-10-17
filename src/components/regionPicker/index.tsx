@@ -4,7 +4,7 @@ import { Picker, View } from '@tarojs/components';
 import { useAsyncEffect } from 'ahooks';
 import { useState } from 'react';
 import { AtListItem } from 'taro-ui';
-import { GD_KEY } from "@/consts";
+import { GD_KEY } from "@/constants";
 
 export type TRegionObj = {
   regionValue: number[];
@@ -52,9 +52,10 @@ const RegionPicker: FC<TRegionPicker> = (props) => {
       for (let i = 0; i < regionAllTemp?.[provinceIdx || regionValue?.[0] || 0]?.districts?.[cityIdx || regionValue?.[1] || 0]?.districts?.length; i++) {
         temp.push(regionAllTemp?.[provinceIdx || regionValue?.[0] || 0]?.districts?.[cityIdx || regionValue?.[1] || 0]?.districts[i]?.name);
       }
-      range.push(temp);
-      if (initialLocation[2] && temp.indexOf(initialLocation[2]) !== -1) districtIdx = temp.indexOf(initialLocation[2]);
       setRegionData(range);
+      // range.push(temp);
+      if (initialLocation[2] && temp.indexOf(initialLocation[2]) !== -1) districtIdx = temp.indexOf(initialLocation[2]);
+      // setRegionData(range);
       const tempObjArr = [
         {
           ...regionAllTemp?.[provinceIdx || regionValue?.[0] || 0],
@@ -71,7 +72,8 @@ const RegionPicker: FC<TRegionPicker> = (props) => {
       ];
       setRegionValue([provinceIdx, cityIdx, districtIdx]);
       setRegionValObjArr(tempObjArr);
-      setRegionText(tempObjArr?.length > 0 ? `${tempObjArr?.[0]?.name || ''} ${tempObjArr?.[1]?.name || ''} ${tempObjArr?.[2]?.name || ''}` : '');
+      // setRegionText(tempObjArr?.length > 0 ? `${tempObjArr?.[0]?.name || ''} ${tempObjArr?.[1]?.name || ''} ${tempObjArr?.[2]?.name || ''}` : '');
+      setRegionText(tempObjArr?.length > 0 ? `${tempObjArr?.[0]?.name || ''} ${tempObjArr?.[1]?.name || ''}` : '');
     }
   }, []);
 
@@ -97,7 +99,7 @@ const RegionPicker: FC<TRegionPicker> = (props) => {
         valueTemp[1] = 0;
         valueTemp[2] = 0;
         rangeTemp[1] = cityTemp;
-        rangeTemp[2] = districtAndCountyTemp;
+        // rangeTemp[2] = districtAndCountyTemp;
         break;
       case 1:
         let districtAndCountyTemp2: any = [];
@@ -105,7 +107,7 @@ const RegionPicker: FC<TRegionPicker> = (props) => {
           districtAndCountyTemp2.push(regionAll?.[valueTemp?.[0]]?.districts?.[row]?.districts?.[i]?.name);
         }
         valueTemp[2] = 0;
-        rangeTemp[2] = districtAndCountyTemp2;
+        // rangeTemp[2] = districtAndCountyTemp2;
         break;
       case 2:
         break;
@@ -138,7 +140,8 @@ const RegionPicker: FC<TRegionPicker> = (props) => {
           range={[...regionData]}
           value={regionValue}
           onChange={(e) => {
-            const tempRegionText = `${regionValObjArr?.[0]?.name || ''} ${regionValObjArr?.[1]?.name || ''} ${regionValObjArr?.[2]?.name || ''}`;
+            // const tempRegionText = `${regionValObjArr?.[0]?.name || ''} ${regionValObjArr?.[1]?.name || ''} ${regionValObjArr?.[2]?.name || ''}`;
+            const tempRegionText = `${regionValObjArr?.[0]?.name || ''} ${regionValObjArr?.[1]?.name || ''}`;
             setRegionText(tempRegionText);
               onRegionChange(e, {
                 regionValue: e.detail?.value,

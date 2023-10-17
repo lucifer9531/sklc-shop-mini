@@ -6,10 +6,11 @@ import Empty from "@/components/empty";
 import { AtActivityIndicator, AtButton, AtModal, AtModalContent } from "taro-ui";
 import { useAsyncEffect } from "ahooks";
 import Taro from "@tarojs/taro";
-import {ORDER_INFO_PAGE, SEND_REMIND, SEND_REMIND_REL} from "@/consts";
+import { ORDER_INFO_PAGE, SEND_REMIND, SEND_REMIND_REL } from "@/constants";
 import Select from "@/components/select";
 import { navigateToTab } from "@/utils";
 import OccupyingRow from "@/components/occupyingRow";
+// import { getOrderList } from "@/api/order";
 import './index.scss';
 
 const Order: FC = () => {
@@ -41,6 +42,9 @@ const Order: FC = () => {
     try {
       const response = await fetch(`https://api.example.com/data?page=${pageNum}`);
       const newData = await response.json();
+      // TODO: 接口调试，这接口写的垃圾的一批
+      // const response = await getOrderList({ pageNum, pageSize: 5 });
+      // const newData = response.data;
       setData((prevData) => [...prevData, ...newData]);
       setLoading(false);
     } catch (err) {

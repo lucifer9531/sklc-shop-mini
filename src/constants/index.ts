@@ -16,7 +16,7 @@ export const APPLY_CHECK_IN_PAGE: string = '/pages/center/applyCheckIn/index';
 
 export const USER_CENTER_PAGE: string = '/pages/center/index/index';
 
-export const MONTH_ORDER_PAGE: string = 'pages/center/monthOrder/index';
+export const MONTH_ORDER_PAGE: string = '/pages/center/monthOrder/index';
 
 export const ADDRESS_PAGE: string = '/pages/center/address/index';
 
@@ -29,7 +29,7 @@ export const SEND_REMIND = '已向供应商发送提醒';
 
 export const SEND_REMIND_REL = '已发送过提醒\n' + '如有疑问可电话联系供应商';
 
-export const BASE_URL: string = 'https://api.example.com';
+export const BASE_URL: string = 'http://101.43.169.228:8666';
 
 export const GD_BASE_URL: string = 'https://restapi.amap.com';
 

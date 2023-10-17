@@ -6,6 +6,7 @@ import { useState } from "react";
 import Table from "@/components/table";
 import { AtButton } from "taro-ui";
 import OccupyingRow from "@/components/occupyingRow";
+import { transportStatusEnum } from "@/enums/transportStatus";
 import './index.scss';
 
 const OrderInfo: FC = () => {
@@ -19,71 +20,66 @@ const OrderInfo: FC = () => {
       title: '序号',
       dataIndex: 'number',
       width: 50,
+      render: (_, __, index) => {
+        return <Text>{index + 1}</Text>;
+      },
     },
     {
       title: '品名',
-      dataIndex: 'name',
+      dataIndex: 'productName',
     },
     {
       title: '数量',
-      dataIndex: 'count',
+      dataIndex: 'unit',
       width: 60,
     },
     {
       title: '价格',
       dataIndex: 'price',
-      render: (t) => '￥' + t,
+      render: (t) => t ? '￥' + t : '未标价',
       width: 70,
     },
     {
       title: '总计',
       dataIndex: 'sum',
+      // TODO: fix data type calculation
+      render: (_, record) => !record.price ? '--' : '￥' + record.unit * record.price,
       width: 70,
     },
   ]
 
+  // 待标价 待称重 待配送
+  // 待支付 已支付
+
+  // 未称重 已称重 显示价格
   useMount(() => {
     const { id} = router.params;
     if (id) {
        // TODO: 获取订单的详情
       console.log(id);
       setOrderInfo({
-        status: '待标价',
+        status: '待称重',
         shopName: '牛肉商行',
         time: '2023-12-12 17:00'
       });
       setDataSource([
         {
-          id: 1,
-          number: '1',
-          name: '黄瓜',
-          count: '12斤',
+          productName: '黄瓜',
+          unit: '12斤',
           price: 5,
-          sum: '未标价',
         },
         {
-          id: 2,
-          number: '2',
-          name: '西红柿',
-          count: '9斤',
-          price: 5,
-          sum: '未标价',
+          productName: '黄瓜',
+          unit: '12斤',
         },
         {
-          id: 3,
-          number: '3',
-          name: '西红柿',
-          count: '91斤',
+          productName: '黄瓜',
+          unit: '12斤',
           price: 5,
-          sum: '未标价',
         },
         {
-          id: 4,
-          number: '4',
-          name: '西红柿',
-          count: '19斤',
-          price: 9,
-          sum: '未标价',
+          productName: '黄瓜',
+          unit: '12斤',
         },
       ])
     }
@@ -116,11 +112,11 @@ const OrderInfo: FC = () => {
       />
       <View className='statistics-container'>
         <Text>预计总计</Text>
-        <Text>1000￥</Text>
+        <Text>{ orderInfo.status === transportStatusEnum.TO_BE_WEIGHED ? '待标价/待称重' : '1000￥' }</Text>
       </View>
       <View className='total-container'>
-        <Text>货品种类：n个</Text>
-        <Text>(预计)总金额：1000元</Text>
+        <Text>货品种类：{dataSource.length}个</Text>
+        <Text>(预计)总金额：{orderInfo.status === transportStatusEnum.TO_BE_WEIGHED ? '待标价/待称重' : '1000￥'}</Text>
       </View>
       <View className='bottom-container'>
         <View className='phone-container'>

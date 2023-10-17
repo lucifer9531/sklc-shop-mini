@@ -5,10 +5,11 @@ import { AtAvatar, AtList, AtListItem } from "taro-ui";
 import Contact from "@/components/contact";
 import { navigateToTab } from "@/utils";
 import { useState } from "react";
-import { ADDRESS_PAGE, APPLY_CHECK_IN_PAGE, MONTH_ORDER_PAGE } from "@/consts";
+import { ADDRESS_PAGE, APPLY_CHECK_IN_PAGE, HOME_PAGE, MONTH_ORDER_PAGE } from "@/constants";
 import OccupyingRow from "@/components/occupyingRow";
 import { useMount } from "ahooks";
-import PhoneNumber from "@/components/phoneNumber";
+import { getAuthorizationCode } from "@/utils/user";
+import { login } from "@/api/login";
 import './index.scss';
 
 const Center: FC = () => {
@@ -34,13 +35,13 @@ const Center: FC = () => {
     }
   }
 
-  const getPhoneNumber = (e: any) => {
-    if (e.detail.errMsg === 'getPhoneNumber:ok') {
-      // TODO: 调用后台接口登录
-      console.log(e.detail);
-    } else {
-      console.log('用户拒绝授权获取手机号');
-    }
+  // TODO: 登录逻辑放在新页面登录 登录成功后查询订单数量 存储到缓存中
+  const loginByWechat = async () => {
+    const authorizationCode = await getAuthorizationCode();
+    if (!authorizationCode) return;
+    const { data: { data: { token } } } = await login({ jsCode: authorizationCode });
+    Taro.setStorageSync('token', token);
+    navigateToTab(HOME_PAGE);
   }
 
   const logout = () => {
@@ -51,13 +52,7 @@ const Center: FC = () => {
         confirmText: '确定',
         confirmColor: '#2d8cf0',
         success(res) {
-          if (res.confirm) {
-            Taro.setStorageSync('Authorization', '');
-            Taro.setStorageSync('userInfo', null);
-            // TODO: 返回到登录页
-          } else if (res.cancel) {
-            console.log('用户点击取消');
-          }
+          res.confirm && Taro.setStorageSync('token', '');
         }
       })
   }
@@ -73,9 +68,7 @@ const Center: FC = () => {
               <Image src={require('@/assets/images/edit.png')} className='edit-icon' />
             </>
           ) : (
-            <PhoneNumber onGetPhoneNumber={getPhoneNumber}>
-              <Text className='nick-name'>未登录</Text>
-            </PhoneNumber>
+            <Text className='nick-name' onClick={loginByWechat}>立即登录</Text>
           )
         }
       </View>

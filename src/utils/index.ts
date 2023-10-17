@@ -1,5 +1,5 @@
 import Taro from "@tarojs/taro";
-import { GD_KEY } from "@/consts";
+import { GD_KEY } from "@/constants";
 import { getLocation } from "@/api/data";
 
 export function switchTab(route: string) {
@@ -17,6 +17,22 @@ export function navigateToTab(route: string) {
 export function navigateBack() {
   Taro.navigateBack();
 }
+
+export function findDuplicatesByField(array: any, fieldName: string) {
+  const seen = {};
+  const duplicates = [];
+  for (const item of array) {
+    const fieldValue = item[fieldName].trim();
+    if (seen.hasOwnProperty(fieldValue)) {
+      // @ts-ignore
+      duplicates.push(fieldValue);
+    } else {
+      seen[fieldValue] = true;
+    }
+  }
+  return duplicates;
+}
+
 
 export async function getLocationInfo(): Promise<{
   province: string | null;

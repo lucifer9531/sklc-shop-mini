@@ -3,7 +3,7 @@ import { View } from "@tarojs/components";
 import { useEffect, useState } from "react";
 import Empty from "@/components/empty";
 import { AtIcon } from "taro-ui";
-import { ADDRESS_ADD_PAGE } from "@/consts";
+import { ADDRESS_ADD_PAGE } from "@/constants";
 import { navigateToTab } from "@/utils";
 import './index.scss';
 

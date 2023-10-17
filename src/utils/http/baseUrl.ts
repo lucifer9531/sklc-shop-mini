@@ -1,4 +1,4 @@
-import { BASE_URL, GD_BASE_URL } from "@/consts";
+import { BASE_URL, GD_BASE_URL } from "@/constants";
 
 const getBaseUrl = (url: string) => {
   let baseUrl = '';

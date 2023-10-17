@@ -16,7 +16,7 @@ interface SupplierCardProps {
   payStatus: string;
   payCallBack?: () => void;
   onViewShopInfo: () => void;
-  disabled: boolean;
+  disabled?: boolean;
 }
 
 const SupplierCard: FC<SupplierCardProps> = (

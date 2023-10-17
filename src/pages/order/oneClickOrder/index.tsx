@@ -6,6 +6,7 @@ import { useRef, useState } from "react";
 import { AtButton, AtListItem, AtModal, AtModalAction, AtModalContent, AtModalHeader } from "taro-ui";
 import OccupyingRow from "@/components/occupyingRow";
 import { useMount } from "ahooks";
+import { findDuplicatesByField } from "@/utils";
 import './index.scss';
 
 const OneClickOrder: FC = () => {
@@ -18,22 +19,12 @@ const OneClickOrder: FC = () => {
   const [voiceModelIsOpened, setVoiceModelIsOpened] = useState<boolean>(false);
   const [dataSource, setDataSource] = useState<any[]>([
     {
-      id: 1,
-      number: '1',
-      name: '黄瓜',
-      count: '12斤',
+      productName: '黄瓜',
+      unit: '12斤',
     },
     {
-      id: 2,
-      number: '2',
-      name: '黄瓜',
-      count: '12斤',
-    },
-    {
-      id: 3,
-      number: '3',
-      name: '黄瓜',
-      count: '12斤',
+      productName: '黄瓜',
+      unit: '12斤',
     },
   ]);
 
@@ -42,74 +33,65 @@ const OneClickOrder: FC = () => {
       title: '序号',
       dataIndex: 'number',
       width: 50,
+	    render: (_, __, index) => {
+		    return <Text>{index + 1}</Text>;
+	    },
     },
     {
       title: '品名',
-      dataIndex: 'name',
+      dataIndex: 'productName',
       render: (t, record) => {
-        return <Input onInput={(e) => bindInputName(e, record)} value={t} />
+        return <Input onInput={(e) => {record.productName = e.detail.value}} value={t} />
       },
     },
     {
       title: '数量',
-      dataIndex: 'count',
+      dataIndex: 'unit',
       render: (t, record) => {
-        return <Input onInput={(e) => bindInputCount(e, record)} value={t} />
+        return <Input onInput={(e) => {record.unit = e.detail.value}} value={t} />
       },
     },
     {
       title: '操作',
       dataIndex: 'number',
-      render: (_, record) => {
+      render: (_, __, index) => {
         return (
-          <Button type='warn' size='mini' onClick={() => toDel(record.id)}>删除</Button>
+          <Button type='warn' size='mini' onClick={() => toDel(index)}>删除</Button>
         );
       },
     },
   ];
 
-  const toDel = (id: number) => {
+  const toDel = (idx: number) => {
     Taro.showModal({
       content: '确定删除吗?',
       showCancel: true,
       confirmText: '确定',
       confirmColor: '#1EC263',
       success(res) {
-        res.confirm && setDataSource(prevDataSource => prevDataSource.filter(item => item.id !== id));
+        res.confirm && setDataSource(prevDataSource => prevDataSource.filter((_, index) => index !== idx));
       }
     })
   }
 
-  const bindInputName = (event: any, record: any) => {
-    record.name = event.detail.value;
-  }
-
-  const bindInputCount = (event: any, record: any) => {
-    record.count = event.detail.value;
+  const addProduct = (productName: string) => {
+    const newProduct = {
+      productName,
+      unit: '',
+    };
+    setDataSource([...dataSource, newProduct]);
   }
 
   const handleAddProduct = () => {
     if (newProductName.trim() !== '') {
-      const newProduct = {
-        id: dataSource.length + 1,
-        number: dataSource.length + 1,
-        name: newProductName,
-        count: '',
-      };
-      setDataSource([...dataSource, newProduct]);
+      addProduct(newProductName);
       setNewProductName('');
     }
   }
 
   const handlePastedConfirm = () => {
     if (pastedText.trim() !== '') {
-      const newProduct = {
-        id: dataSource.length + 1,
-        number: dataSource.length + 1,
-        name: pastedText,
-        count: '',
-      };
-      setDataSource([...dataSource, newProduct]);
+      addProduct(pastedText);
       setIsOpened(false);
       setPastedText('');
     }
@@ -129,6 +111,40 @@ const OneClickOrder: FC = () => {
   const handleVoiceModelClose = () => {
     Taro.stopRecord();
     setVoiceModelIsOpened(false);
+  }
+
+  const clearAllContent = () => {
+    Taro.showModal({
+      content: '是否清空全部内容?',
+      showCancel: true,
+      confirmText: '确认',
+      confirmColor: '#1EC263',
+      success(res) {
+        res.confirm && setDataSource([]);
+      }
+    })
+  }
+
+  const addOrder = () => {
+    console.log(dataSource);
+    const duplicateArr = findDuplicatesByField(dataSource, 'productName');
+    if (duplicateArr.length > 0) {
+      Taro.showModal({
+        content: `货品${[...new Set(duplicateArr)].join(',')}重复提交，是否继续?`,
+        showCancel: true,
+        confirmText: '确认提交',
+        confirmColor: '#1EC263',
+        success(res) {
+          res.confirm && saveOrder();
+        }
+      })
+    } else {
+      saveOrder();
+    }
+  }
+
+  const saveOrder = () => {
+    // 调用接口提交
   }
 
   useMount(() => {
@@ -187,8 +203,8 @@ const OneClickOrder: FC = () => {
         </View>
       </View>
       <View className='btn-group'>
-        <AtButton className='btn' size='normal' type='secondary'>清空</AtButton>
-        <AtButton className='btn' size='normal' type='primary'>提交</AtButton>
+        <AtButton className='btn' size='normal' type='secondary' onClick={clearAllContent}>清空</AtButton>
+        <AtButton className='btn' size='normal' type='primary' onClick={addOrder}>提交</AtButton>
       </View>
       <AtModal isOpened={isOpened} className='pasted-model' onClose={() => setIsOpened(false)}>
         <AtModalHeader>粘贴文本内容</AtModalHeader>

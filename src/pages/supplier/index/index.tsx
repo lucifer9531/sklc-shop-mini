@@ -1,14 +1,15 @@
 import type { FC } from "react";
 import Taro from '@tarojs/taro';
-import { AtActivityIndicator, AtButton } from 'taro-ui';
+import { AtActivityIndicator, AtButton, AtDivider } from 'taro-ui';
 import { View, Text, ScrollView } from "@tarojs/components";
 import Empty from "@/components/empty";
 import SupplierCard from "@/components/supplierCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { navigateToTab } from "@/utils";
-import { ADD_SUPPLIER_PAGE, ONE_CLICK_ORDER_PAGE, SUPPLIER_INFO_PAGE } from "@/consts";
-import { useAsyncEffect, useMount } from "ahooks";
+import { ADD_SUPPLIER_PAGE, ONE_CLICK_ORDER_PAGE, SUPPLIER_INFO_PAGE } from "@/constants";
+import { useAsyncEffect } from "ahooks";
 import OccupyingRow from "@/components/occupyingRow";
+import { getSupplierOfUser } from "@/api/supplier";
 import './index.scss';
 
 const Index: FC = () => {
@@ -28,21 +29,34 @@ const Index: FC = () => {
     phoneNumber: '19828360146',
     id: '2'
   }] as any[]);
+  const [supplierCount, setSupplierCount] = useState<number>(0);
 
-  useMount(() => {
-    // TODO: 从缓存中取出订单的数量
+  useEffect(() => {
+    setOrderBrade();
+    Taro.eventCenter.on('dataAdded', handleDataAdded);
+    return () => {
+      Taro.eventCenter.off('dataAdded', handleDataAdded);
+    };
+  }, []);
+
+  const setOrderBrade = () => {
     Taro.setTabBarBadge({
       index: 1,
-      text: '2',
+      text: Taro.getStorageSync('orderCount') || '0',
     })
-  })
+  };
 
-  // TODO: 对接接口
-  const fetchData = async (pageNum: number) => {
+  const handleDataAdded = async () => {
+    await fetchData(1, true);
+  };
+
+  const fetchData = async (pageNo: number, clearData = false) => {
     try {
-      const response = await fetch(`https://api.example.com/data?page=${pageNum}`);
-      const newData = await response.json();
-      setData((prevData) => [...prevData, ...newData]);
+      setLoading(true);
+      const { data: { data: { records, total } } } = await getSupplierOfUser({ pageNo, pageSize: 5 });
+      if (clearData) setData(records);
+      else setData((prevData) => [...prevData, ...records]);
+      setSupplierCount(total);
       setLoading(false);
     } catch (err) {
       setLoading(false);
@@ -50,7 +64,7 @@ const Index: FC = () => {
   };
 
   const handleScrollToLower = () => {
-    if (!loading) {
+    if (!loading && data.length < supplierCount) {
       setLoading(true);
       setPage(page + 1);
     }
@@ -94,7 +108,11 @@ const Index: FC = () => {
             />
           ))
         )}
-        {loading && <AtActivityIndicator content='加载中...' />}
+        {loading && <AtActivityIndicator className='footer' content='加载中...' />}
+        {
+          data.length > 0 && data.length >= supplierCount &&
+          <AtDivider className='footer' fontColor='#000' fontSize='28' content='没有更多了' />
+        }
       </ScrollView>
       {
         data.length > 0 &&

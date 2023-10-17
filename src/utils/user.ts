@@ -13,11 +13,11 @@ function checkSession() {
 	});
 }
 
-export function login() {
+export function getAuthorizationCode() {
 	return new Promise((resolve, reject) => {
 		Taro.login({
 			success: (res) => {
-				if (res.code) resolve(res);
+				if (res.code) resolve(res.code);
 				else reject(res);
 			},
 			fail: (err) => {
@@ -29,7 +29,7 @@ export function login() {
 
 export function checkLogin() {
 	return new Promise((resolve) => {
-		if (Taro.getStorageSync('userInfo') && Taro.getStorageSync('token')) {
+		if (Taro.getStorageSync('token')) {
 			resolve(true);
 			checkSession().then(() => {
 				resolve(true);

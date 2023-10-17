@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { View, Text } from "@tarojs/components";
-import { APPLY_NOTE_TEXT } from "@/consts";
-import {AtButton, AtForm, AtInput, AtRadio} from "taro-ui";
+import { APPLY_NOTE_TEXT } from "@/constants";
+import { AtButton, AtForm, AtInput, AtRadio } from "taro-ui";
 import { useState } from "react";
 import OccupyingRow from "@/components/occupyingRow";
 import './index.scss';
